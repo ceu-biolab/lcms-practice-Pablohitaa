@@ -43,8 +43,7 @@ public class Annotation {
         this.rtMin = rtMin;
         this.intensity = intensity;
         this.ionization= ionization;
-        // !!TODO This set should be sorted according to help the program to deisotope the signals plus detect the adduct
-        this.groupedSignals = new TreeSet<>(groupedSignals);
+       this.groupedSignals = new TreeSet<>(groupedSignals);
         this.score = 0;
         this.totalScoresApplied = 0;
         detectAdductFromPeaks();
@@ -91,8 +90,7 @@ public class Annotation {
     public void setIonization(IonizationMode ionization) {
         this.ionization = ionization;
     }
-    // !CHECK Take into account that the score should be normalized between -1 and 1
-    public void addScore(int delta) {
+     public void addScore(int delta) {
         this.score += delta;
         this.totalScoresApplied++;
     }
@@ -110,7 +108,7 @@ public class Annotation {
         String finalAdduct = null;
         int ppm=0;
 
-        // Aductos positivos
+
         if (ionization == IonizationMode.POSITIVE) {
             for (String adduct1 : AdductList.MAPMZPOSITIVEADDUCTS.keySet()) {
                 for (String adduct2 : AdductList.MAPMZPOSITIVEADDUCTS.keySet()) {
@@ -129,11 +127,11 @@ public class Annotation {
                                     if (Math.abs(p1.getMz() - this.mz) <= ppm) {
                                         finalAdduct = adduct1;
                                         this.adduct = finalAdduct;
-                                        return; // Primer match encontrado, salimos
+                                        return;
                                     } else if (Math.abs(p2.getMz() - this.mz) <= TOLERANCE) {
                                         finalAdduct = adduct2;
                                         this.adduct = finalAdduct;
-                                        return; // Primer match encontrado, salimos
+                                        return;
                                     }
                                 }
                             }
@@ -143,7 +141,7 @@ public class Annotation {
             }
         }else if (ionization == IonizationMode.NEGATIVE) {
 
-            // Aductos negativos
+
             for (String adduct1 : AdductList.MAPMZNEGATIVEADDUCTS.keySet()) {
                 for (String adduct2 : AdductList.MAPMZNEGATIVEADDUCTS.keySet()) {
                     if (adduct1.equals(adduct2)) continue;
@@ -173,7 +171,7 @@ public class Annotation {
             }
         }
         System.out.println(finalAdduct);
-        this.adduct = finalAdduct; // Por si no se cumple ninguna condición
+        this.adduct = finalAdduct;
     }
 
 
