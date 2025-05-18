@@ -199,7 +199,6 @@ public class AdductDetectionTest {
                 IonizationMode.POSITIVE,
                 Set.of(fake)
         );
-
         assertNull("No adduct should be detected from unrecognized mz", annotation.getAdduct());
     }
     /* @Test
