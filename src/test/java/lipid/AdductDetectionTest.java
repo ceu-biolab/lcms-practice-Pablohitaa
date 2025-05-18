@@ -215,7 +215,6 @@ public class AdductDetectionTest {
                 IonizationMode.POSITIVE,
                 Set.of(dimer)
         );
-
         assertNotNull("Dimer adduct should be detected", annotation.getAdduct());
         assertEquals("[2M+H]+", annotation.getAdduct());
     }
