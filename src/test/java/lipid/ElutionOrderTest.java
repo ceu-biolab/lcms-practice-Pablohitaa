@@ -294,7 +294,7 @@ public class ElutionOrderTest {
         }
 
     }
-    /* @Test
+    @Test
     public void negativeScoreForIdenticalLipidsWithDifferentRT() {
         LOG.info("Creating RuleUnit");
         LipidScoreUnit lipidScoreUnit = new LipidScoreUnit();
@@ -321,7 +321,32 @@ public class ElutionOrderTest {
             instance.close();
         }
     }
+    @Test
+    public void positiveScoreForIdenticalLipidsWithSameRT() {
+        LOG.info("Creating RuleUnit");
+        LipidScoreUnit lipidScoreUnit = new LipidScoreUnit();
+        RuleUnitInstance<LipidScoreUnit> instance = RuleUnitProvider.get().createRuleUnitInstance(lipidScoreUnit);
 
-*/
+        Lipid lipid1 = new Lipid(1, "TG 54:3", "C57H104O6", LipidType.TG, 54, 3);
+        Lipid lipid2 = new Lipid(2, "TG 54:3", "C57H104O6", LipidType.TG, 54, 3);
+
+        Annotation annotation1 = new Annotation(lipid1, 885.790, 10E6, 5.0d, IonizationMode.POSITIVE);
+        Annotation annotation2 = new Annotation(lipid2, 885.790, 10E6, 5.0d, IonizationMode.POSITIVE);
+
+        LOG.info("Insert data");
+        try {
+            lipidScoreUnit.getAnnotations().add(annotation1);
+            lipidScoreUnit.getAnnotations().add(annotation2);
+
+            LOG.info("Run query. Rules are also fired");
+            instance.fire();
+
+            assertEquals(1.0, annotation1.getNormalizedScore(), 0.01);
+            assertEquals(1.0, annotation2.getNormalizedScore(), 0.01);
+        } finally {
+            instance.close();
+        }
+    }
+
 
 }

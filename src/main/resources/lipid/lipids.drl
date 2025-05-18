@@ -81,19 +81,32 @@ rule "Score -1 for lipid pair with different LipidType (PG<PE<PI<PA<PS<<PC)"
         System.out.println("Scored 1 for annotations: " + $a1 + " and " + $a2);
 end
 
-/* rule "Penalty for same lipid properties with very different RT"
+ rule "Penalty for same lipid properties with very different RT"
 when
      $a1 : /annotations [$rt1 : rtMin,
      $carbonCount1 : lipid.getCarbonCount(),
      $doubleBondCount : lipid.getDoubleBondCount(),
-     $order1: lipid.getLipidOrder(getLipid().getLipidType)]
-    $a2 : /annotations [this!= $a1, lipid.getDoubleBondCount() == $doubleBondCount, rtMin != $rt1,lipid.getCarbonCount() == $carbonCount1, lipid.getLipidOrder(getLipid().getLipidType)= $order1 ]
+     $lipidType: lipid.getLipidType()]
+    $a2 : /annotations [this!= $a1, lipid.getDoubleBondCount() == $doubleBondCount, rtMin != $rt1,lipid.getCarbonCount() == $carbonCount1, lipid.getLipidType() == $lipidType ]
 
 then
     $a1.addScore(-1);
     $a2.addScore(-1);
 end
-*/
+
+rule "Score 1 for same lipid properties with same RT"
+when
+     $a1 : /annotations [$rt1 : rtMin,
+     $carbonCount1 : lipid.getCarbonCount(),
+     $doubleBondCount : lipid.getDoubleBondCount(),
+     $lipidType: lipid.getLipidType()]
+    $a2 : /annotations [this!= $a1, lipid.getDoubleBondCount() == $doubleBondCount, rtMin == $rt1,lipid.getCarbonCount() == $carbonCount1, lipid.getLipidType() == $lipidType ]
+
+then
+    $a1.addScore(1);
+    $a2.addScore(1);
+end
+
 
 
 
