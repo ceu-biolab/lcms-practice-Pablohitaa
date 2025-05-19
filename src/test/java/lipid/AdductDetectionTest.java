@@ -31,12 +31,12 @@ public class AdductDetectionTest {
         double annotationMZ = 700.49999d;
         double annotationIntensity = 80000.0;
         double annotationRT = 6.5d;
-        Annotation annotation = new Annotation(lipid, annotationMZ, annotationIntensity, annotationRT,IonizationMode.POSITIVE, Set.of(mH, mNa));
+        Annotation annotation = new Annotation(lipid, mNa.getMz(), mNa.getIntensity(), annotationRT,IonizationMode.POSITIVE, Set.of(mH, mNa));
 
 
-        assertNotNull("[M+H]+ should be detected", annotation.getAdduct());
+        assertNotNull("[M+Na]+ should be detected", annotation.getAdduct());
 
-        assertEquals( "Adduct inferred from lowest mz in group","[M+H]+", annotation.getAdduct());
+        assertEquals( "Adduct inferred from lowest mz in group","[M+Na]+", annotation.getAdduct());
 
     }
 
@@ -64,12 +64,13 @@ public class AdductDetectionTest {
         Peak doublyCharged = new Peak(350.754, 85000.0);   // [M+2H]2+
 
         Lipid lipid = new Lipid(3, "TG 54:3", "C57H104O6", LipidType.TG, 54, 3);
-        Annotation annotation = new Annotation(lipid, singlyCharged.getMz(), singlyCharged.getIntensity(), 10d,IonizationMode.POSITIVE, Set.of(singlyCharged, doublyCharged));
+        Annotation annotation = new Annotation(lipid, doublyCharged.getMz(), doublyCharged.getIntensity(), 10d,IonizationMode.POSITIVE, Set.of(singlyCharged, doublyCharged));
 
-        assertNotNull("[M+H]+ should be detected", annotation.getAdduct());
+        assertNotNull("[M+2H]2+ should be detected", annotation.getAdduct());
 
-        assertEquals( "Adduct inferred from lowest mz in group","[M+H]+", annotation.getAdduct());
+        assertEquals( "Adduct inferred from lowest mz in group","[M+2H]2+", annotation.getAdduct());
     }
+
     @Test
     public void shouldDetectNegativeAdductBasedOnMzDifference() {
 

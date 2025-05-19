@@ -121,7 +121,7 @@ public class Annotation {
                             Double mass1 = Adduct.getMonoisotopicMassFromMZ(p1.getMz(), adduct1);
                             Double mass2 = Adduct.getMonoisotopicMassFromMZ(p2.getMz(), adduct2);
                             ppm= Adduct.calculatePPMIncrement( mass1, mass2);
-                            //System.out.println(ppm + ", "+ adduct1 + "= " + mass1 + "mz1= " + p1.getMz() + ", " + adduct2 + "= "+ mass2 + "mz2= " + p2.getMz());
+                            System.out.println(ppm + ", "+ adduct1 + "= " + mass1 + "mz1= " + p1.getMz() + ", " + adduct2 + "= "+ mass2 + "mz2= " + p2.getMz());
                             if(ppm<TOLERANCE){
                                 if (mass1 != null && mass2 != null && Math.abs(mass1 - mass2) <= TOLERANCE) {
                                     if (Math.abs(p1.getMz() - this.mz) <= ppm) {
